@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import * as d3 from "d3";
 
-function App() {
+import csvData from "./data/Comp6214Data.csv";
+
+import MainFrame from "./components/MainFrame";
+import TextFrame from "./components/TextFrame";
+
+import "./App.scss";
+
+async function loadData() {
+  const data = await d3.csv(csvData);
+  const grouped = data.reduce((acc, elem) => {
+    const region = elem["Region of HE provider"];
+    if (acc[region] === undefined) {
+      acc[region] = [];
+    }
+    acc[region].push(elem);
+    return acc;
+  }, {});
+
+  return grouped;
+}
+
+export default function App() {
+  const [loading, setIsLoading] = useState(true);
+  const [rawData, setRawData] = useState({});
+
+  useEffect(() => {
+    loadData().then(result => {
+      setRawData(result);
+      setIsLoading(false);
+    });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {loading === false && <MainFrame rawData={rawData} />}
+      <TextFrame />
     </div>
   );
 }
-
-export default App;
