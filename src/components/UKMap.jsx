@@ -29,7 +29,10 @@ export default function UKMap({ selectedRegion, handleSelectRegion }) {
     const svg = d3
       .select(d3Ref.current)
       .attr("width", width)
-      .attr("height", height);
+      .attr("height", height)
+      .on("click", function(d) {
+        handleSelectRegion("")
+      })
 
     svg.selectAll("*").remove();
 
@@ -54,6 +57,7 @@ export default function UKMap({ selectedRegion, handleSelectRegion }) {
       .style("stroke", "black")
       .attr("fill", ({ properties }) => colors[properties.EER13NM])
       .on("click", function() {
+        d3.event.stopPropagation()
         handleSelectRegion(d3.select(this).attr("id"));
       });
   }, [handleSelectRegion, height, width]);
@@ -70,7 +74,7 @@ export default function UKMap({ selectedRegion, handleSelectRegion }) {
         .selectAll("path")
         .transition()
         .duration(200)
-        .style("opacity", 0.5);
+        .style("opacity", 0.3);
 
       d3.select(`#${selectedRegion}`)
         .transition()

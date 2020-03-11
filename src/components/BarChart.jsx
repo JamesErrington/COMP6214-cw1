@@ -23,6 +23,12 @@ export default function BarChart({ data, margin }) {
 
       svg.attr("width", width).attr("height", height);
 
+      var tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("visibility", "hidden");
+
       const g = svg
         .append("g")
         .attr("transform", `translate(0, ${margin.top})`);
@@ -54,7 +60,23 @@ export default function BarChart({ data, margin }) {
         .attr("y", d => y(d.label))
         .attr("width", d => x(0))
         .attr("height", y.bandwidth())
-        .attr("fill", "#69b3a2");
+        .attr("fill", "#69b3a2")
+        // .on("mouseover", function(d) {
+        //   return tooltip
+        //     .style("visibility", "visible")
+        //     .style("top", d3.event.pageY - 20 + "px")
+        //     .style("left", d3.event.pageX - 50 + "px")
+        //     .html(`<strong>${d.label}</strong>: ${d.value}`);
+        // })
+        // .on("mousemove", function(d) {
+        //   return tooltip
+        //     .style("top", d3.event.pageY - 20 + "px")
+        //     .style("left", d3.event.pageX - 50 + "px")
+        //     .html(`<strong>${d.label}</strong>: ${d.value}`);
+        // })
+        // .on("mouseout", function() {
+        //   return tooltip.style("visibility", "hidden");
+        // });
 
       g.selectAll("rect")
         .transition()

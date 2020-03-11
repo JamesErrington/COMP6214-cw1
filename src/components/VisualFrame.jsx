@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 import BarChart from "./BarChart";
 import StackedBarChart from "./StackedBarChart";
@@ -135,31 +135,39 @@ export default function VisualFrame({
     label: "Total Students",
     value: "Total students"
   });
+  const [filteredSubgroup, setFilteredSubgroup] = useState(-1);
   const [percentage, setPercentage] = useState(true);
 
-  const selectedData = formatData(rawData[selectedRegion], selectedField.value);
+  const selectedData = useMemo(
+    () => formatData(rawData[selectedRegion], selectedField.value),
+    [rawData, selectedRegion, selectedField]
+  );
   const regionLabel = regionOptions.find(
     region => region.value === selectedRegion
   ).label;
+
+  const margin = useMemo(
+    () => ({ top: 50, right: 250, bottom: 50, left: 250 }),
+    []
+  );
 
   return (
     <>
       <div className="chart-title">
         <h1>
-          {regionLabel} - {selectedField.label}
+          {regionLabel} - {selectedField.label}{filteredSubgroup > -1 ? ` - ${selectedData.subgroups[filteredSubgroup]}` : ""}
         </h1>
       </div>
       <div className="chart-holder">
         {selectedField.value === "Total students" ? (
-          <BarChart
-            data={selectedData}
-            margin={{ top: 50, right: 250, bottom: 50, left: 250 }}
-          />
+          <BarChart data={selectedData} margin={margin} />
         ) : (
           <StackedBarChart
             data={selectedData}
-            margin={{ top: 50, right: 250, bottom: 50, left: 250 }}
+            margin={margin}
             percentage={percentage}
+            filteredSubgroup={filteredSubgroup}
+            setFilteredSubgroup={setFilteredSubgroup}
           />
         )}
       </div>
@@ -217,6 +225,23 @@ export default function VisualFrame({
               onChange={() => setPercentage(false)}
             />
             <label htmlFor="absolute-radio">Absolute value</label>
+            <h3>with</h3>
+            <select
+              value={filteredSubgroup}
+              onChange={event =>
+                setFilteredSubgroup(parseInt(event.target.value))
+              }
+            >
+              <option key="all" value={-1}>
+                All
+              </option>
+              {selectedData.subgroups.map((subgroup, i) => (
+                <option key={subgroup} value={parseInt(i)}>
+                  {subgroup}
+                </option>
+              ))}
+            </select>
+            <h3>filtered</h3>
           </div>
         )}
       </div>

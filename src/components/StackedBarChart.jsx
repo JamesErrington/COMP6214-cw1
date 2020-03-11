@@ -2,12 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import useComponentSize from "@rehooks/component-size";
 
-export default function BarChart({ data, margin, percentage }) {
+export default function StackedBarChart({
+  data,
+  margin,
+  percentage,
+  filteredSubgroup,
+  setFilteredSubgroup
+}) {
   const parentRef = useRef(null);
   const d3Ref = useRef(null);
 
   const [hoveredSubgroup, setHoveredSubgroup] = useState(null);
-  const [filteredSubgroup, setFilteredSubgroup] = useState(null);
+  const [axes, setAxes] = useState({});
 
   const { width, height } = useComponentSize(parentRef);
 
@@ -58,7 +64,12 @@ export default function BarChart({ data, margin, percentage }) {
 
       svg.selectAll("*").remove();
 
-      svg.attr("width", width).attr("height", height);
+      svg
+        .attr("width", width)
+        .attr("height", height)
+        .on("click", function(d) {
+          setFilteredSubgroup(-1);
+        });
 
       const g = svg
         .append("g")
@@ -84,6 +95,8 @@ export default function BarChart({ data, margin, percentage }) {
         .attr("id", "y-axis")
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y));
+
+      setAxes({ x, y });
 
       const color = d3
         .scaleOrdinal()
@@ -111,6 +124,12 @@ export default function BarChart({ data, margin, percentage }) {
         })
         .on("mouseleave", function(d) {
           setHoveredSubgroup(null);
+        })
+        .on("click", function(d) {
+          d3.event.stopPropagation();
+          setFilteredSubgroup(
+            useableData.subgroups.indexOf(d3.select(this.parentNode).datum())
+          );
         });
 
       legend
@@ -135,13 +154,12 @@ export default function BarChart({ data, margin, percentage }) {
             2})`
       );
 
-      const subgroups =
-        filteredSubgroup === null
-          ? useableData.subgroups
-          : [useableData.subgroups[filteredSubgroup]];
-      const stackedData = d3.stack().keys(subgroups)(useableData.rawData);
+      const stackedData = d3.stack().keys(useableData.subgroups)(
+        useableData.rawData
+      );
 
       g.append("g")
+        .attr("id", "stacked-bar")
         .selectAll("g")
         .data(stackedData)
         .enter()
@@ -177,6 +195,7 @@ export default function BarChart({ data, margin, percentage }) {
           setHoveredSubgroup(null);
         })
         .on("click", function(d) {
+          d3.event.stopPropagation();
           setFilteredSubgroup(
             useableData.subgroups.indexOf(
               d3.select(this.parentNode).datum().key
@@ -197,7 +216,7 @@ export default function BarChart({ data, margin, percentage }) {
           return x(d[1]) - x(d[0]);
         });
     }
-  }, [width, height, margin, data, percentage, filteredSubgroup]);
+  }, [width, height, margin, data, percentage, setFilteredSubgroup]);
 
   useEffect(() => {
     if (hoveredSubgroup === null) {
@@ -215,6 +234,35 @@ export default function BarChart({ data, margin, percentage }) {
         .style("opacity", 1);
     }
   }, [hoveredSubgroup]);
+
+  useEffect(() => {
+    if (filteredSubgroup === -1) {
+      d3.select("#stacked-bar")
+        .selectAll("rect")
+        .transition()
+        .duration(800)
+        .attr("x", d => axes.x(d[0]) + margin.left)
+        .attr("width", d => axes.x(d[1]) - axes.x(d[0]))
+        .style("opacity", 1);
+    } else {
+      d3.select("#stacked-bar")
+        .selectAll("rect")
+        .transition()
+        .duration(800)
+        .attr("x", d => axes.x(0) + margin.left)
+        .attr("width", 0)
+        .style("opacity", 0);
+
+      d3.select("#stacked-bar")
+        .selectAll(".subgroup-" + filteredSubgroup)
+        .selectAll("rect")
+        .transition()
+        .duration(800)
+        .attr("x", d => axes.x(0) + margin.left)
+        .attr("width", d => axes.x(d[1]) - axes.x(d[0]))
+        .style("opacity", 1);
+    }
+  }, [filteredSubgroup, margin, axes]);
 
   return (
     <div className="chart-wrapper" ref={parentRef}>

@@ -270,3 +270,13 @@ body {
 .chart-icon > svg {
   fill: purple;
 }
+
+.tooltip {
+  position: absolute;
+  z-index: 1;
+  cursor: none;
+  height: 50px;
+  width: 100px;
+  background-color: white;
+  border: 5px solid black;
+}
