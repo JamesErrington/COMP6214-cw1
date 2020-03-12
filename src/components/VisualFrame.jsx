@@ -155,7 +155,10 @@ export default function VisualFrame({
     <>
       <div className="chart-title">
         <h1>
-          {regionLabel} - {selectedField.label}{filteredSubgroup > -1 ? ` - ${selectedData.subgroups[filteredSubgroup]}` : ""}
+          {regionLabel} - {selectedField.label}
+          {filteredSubgroup > -1
+            ? ` - ${selectedData.subgroups[filteredSubgroup]}`
+            : ""}
         </h1>
       </div>
       <div className="chart-holder">
@@ -174,73 +177,84 @@ export default function VisualFrame({
       <div className="filter-row">
         <div className="selection-row">
           <h3>Show me</h3>
-          <select
-            value={selectedField.value}
-            onChange={event =>
-              setSelectedField({
-                value: event.target.value,
-                label:
-                  event.target.options[event.target.options.selectedIndex].text
-              })
-            }
-          >
-            {fieldOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <div>
+            <select
+              value={selectedField.value}
+              onChange={event =>
+                setSelectedField({
+                  value: event.target.value,
+                  label:
+                    event.target.options[event.target.options.selectedIndex]
+                      .text
+                })
+              }
+            >
+              {fieldOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <h3>statistics for the</h3>
-          <select
-            value={selectedRegion}
-            onChange={event => handleSelectRegion(event.target.value)}
-          >
-            {regionOptions.map(region => (
-              <option key={region.value} value={region.value}>
-                {region.label}
-              </option>
-            ))}
-          </select>
+          <div>
+            <select
+              value={selectedRegion}
+              onChange={event => handleSelectRegion(event.target.value)}
+            >
+              {regionOptions.map(region => (
+                <option key={region.value} value={region.value}>
+                  {region.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <h3>region</h3>
         </div>
         {selectedField.value !== "Total students" && (
           <div className="percentage-row">
             <h3>as a</h3>
-            <input
-              id="percentage-radio"
-              type="radio"
-              name="percentage"
-              value={true}
-              checked={percentage}
-              onChange={() => setPercentage(true)}
-            />
-            <label htmlFor="percentage-radio">Percentage value</label>
+            <div>
+              <input
+                id="percentage-radio"
+                type="radio"
+                name="percentage"
+                value={true}
+                checked={percentage}
+                onChange={() => setPercentage(true)}
+              />
+              <label htmlFor="percentage-radio">Percentage value</label>
+            </div>
             <h3>or an</h3>
-            <input
-              id="absolute-radio"
-              type="radio"
-              name="percentage"
-              value={false}
-              checked={!percentage}
-              onChange={() => setPercentage(false)}
-            />
-            <label htmlFor="absolute-radio">Absolute value</label>
+            <div>
+              <input
+                id="absolute-radio"
+                type="radio"
+                name="percentage"
+                value={false}
+                checked={!percentage}
+                onChange={() => setPercentage(false)}
+              />
+              <label htmlFor="absolute-radio">Absolute value</label>
+            </div>
             <h3>with</h3>
-            <select
-              value={filteredSubgroup}
-              onChange={event =>
-                setFilteredSubgroup(parseInt(event.target.value))
-              }
-            >
-              <option key="all" value={-1}>
-                All
-              </option>
-              {selectedData.subgroups.map((subgroup, i) => (
-                <option key={subgroup} value={parseInt(i)}>
-                  {subgroup}
+            <div>
+              <select
+                value={filteredSubgroup}
+                onChange={event =>
+                  setFilteredSubgroup(parseInt(event.target.value))
+                }
+              >
+                <option key="all" value={-1}>
+                  All
                 </option>
-              ))}
-            </select>
+                {selectedData.subgroups.map((subgroup, i) => (
+                  <option key={subgroup} value={parseInt(i)}>
+                    {subgroup}
+                  </option>
+                ))}
+              </select>
+            </div>
             <h3>filtered</h3>
           </div>
         )}

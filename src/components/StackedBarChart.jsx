@@ -1,3 +1,4 @@
+// Adapted from tutorials at https://www.d3-graph-gallery.com/barplot.html
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import useComponentSize from "@rehooks/component-size";
