@@ -30,7 +30,7 @@ export default function TextFrame() {
               Ethnicity.
             </p>
             <p>
-              Within each different demographic, the differnt groups can be
+              Within each different demographic, the different groups can be
               highlighted by hovering over the bars, or the legend on the right.
               You can drill down into the data by clicking on a group to hide
               the other bars, which can be useful to compare value in some
