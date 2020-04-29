@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/COMP6214-cw1/static/css/main.31b36910.chunk.css",
-    "main.js": "/COMP6214-cw1/static/js/main.e9d320ac.chunk.js",
-    "main.js.map": "/COMP6214-cw1/static/js/main.e9d320ac.chunk.js.map",
-    "runtime-main.js": "/COMP6214-cw1/static/js/runtime-main.e3bc471d.js",
-    "runtime-main.js.map": "/COMP6214-cw1/static/js/runtime-main.e3bc471d.js.map",
-    "static/js/2.338f215c.chunk.js": "/COMP6214-cw1/static/js/2.338f215c.chunk.js",
-    "static/js/2.338f215c.chunk.js.map": "/COMP6214-cw1/static/js/2.338f215c.chunk.js.map",
+    "main.js": "/COMP6214-cw1/static/js/main.f0bc769e.chunk.js",
+    "main.js.map": "/COMP6214-cw1/static/js/main.f0bc769e.chunk.js.map",
+    "runtime-main.js": "/COMP6214-cw1/static/js/runtime-main.4c21fc5c.js",
+    "runtime-main.js.map": "/COMP6214-cw1/static/js/runtime-main.4c21fc5c.js.map",
+    "static/js/2.e9ed6a35.chunk.js": "/COMP6214-cw1/static/js/2.e9ed6a35.chunk.js",
+    "static/js/2.e9ed6a35.chunk.js.map": "/COMP6214-cw1/static/js/2.e9ed6a35.chunk.js.map",
     "index.html": "/COMP6214-cw1/index.html",
-    "precache-manifest.b4439caa64b2ef0e1f806e14674c3d43.js": "/COMP6214-cw1/precache-manifest.b4439caa64b2ef0e1f806e14674c3d43.js",
+    "precache-manifest.3a158b0e516f234dd2a10e4dde7fced0.js": "/COMP6214-cw1/precache-manifest.3a158b0e516f234dd2a10e4dde7fced0.js",
     "service-worker.js": "/COMP6214-cw1/service-worker.js",
     "static/css/main.31b36910.chunk.css.map": "/COMP6214-cw1/static/css/main.31b36910.chunk.css.map",
-    "static/js/2.338f215c.chunk.js.LICENSE.txt": "/COMP6214-cw1/static/js/2.338f215c.chunk.js.LICENSE.txt",
+    "static/js/2.e9ed6a35.chunk.js.LICENSE.txt": "/COMP6214-cw1/static/js/2.e9ed6a35.chunk.js.LICENSE.txt",
     "static/media/Comp6214Data.csv": "/COMP6214-cw1/static/media/Comp6214Data.c2c388c8.csv",
     "static/media/arrow-circle-up.svg": "/COMP6214-cw1/static/media/arrow-circle-up.0521496a.svg",
     "static/media/broom.svg": "/COMP6214-cw1/static/media/broom.4b95a81d.svg",
@@ -19,9 +19,9 @@
     "static/media/link.svg": "/COMP6214-cw1/static/media/link.e44a2787.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.e3bc471d.js",
-    "static/js/2.338f215c.chunk.js",
+    "static/js/runtime-main.4c21fc5c.js",
+    "static/js/2.e9ed6a35.chunk.js",
     "static/css/main.31b36910.chunk.css",
-    "static/js/main.e9d320ac.chunk.js"
+    "static/js/main.f0bc769e.chunk.js"
   ]
 }
